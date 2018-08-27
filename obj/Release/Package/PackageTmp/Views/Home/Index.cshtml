@@ -1,0 +1,85 @@
+﻿@using UploadCSVFile.Models
+@model IEnumerable<UploadCSVModel>
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+            table th {
+                background-color: #B8DBFD;
+                color: #333;
+                font-weight: bold;
+            }
+
+            table th, table td {
+                padding: 5px;
+                border: 1px solid #ccc;
+            }
+
+            table, table table td {
+                border: 0px solid #ccc;
+            }
+    </style>
+</head>
+<body>
+    <div class="jumbotron">
+        <h2>CSV File Upload</h2>
+        <p class="lead">Select a CSV file from local machine to upload, view and analyze data on the file. </p>
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="form-group">
+                <input type="file" name="FileUpload" accept="csv" data-val="true" data-val-required="File is required" />
+            </div>
+            <div class="form-group">
+                <input type="submit" name="Import" id="Import" class="btn btn-primary btn-lg" value="Upload" />
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        @if (Model != null && Model.Count() > 0)
+        {
+            <table cellpadding="0" cellspacing="0">
+                <tr>
+                    <th>Deal Number</th>
+                    <th>Customer Name</th>
+                    <th>Dealership Name</th>
+                    <th>Vehicle Name</th>
+                    <th>Price</th>
+                    <th>DealDate</th>
+                </tr>
+                @foreach (UploadCSVModel dealerRecord in Model)
+                {
+                    <tr>
+                        <td>@dealerRecord.DealNumber</td>
+                        <td>@dealerRecord.CustomerName</td>
+                        <td>@dealerRecord.DealershipName</td>
+                        <td>@dealerRecord.Vehicle</td>
+                        <td>@dealerRecord.Price</td>
+                        <td>@dealerRecord.DealDate</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</body>
+</html>
